@@ -1,0 +1,29 @@
+{
+  "config": {
+    "branch": "main",
+    "domain": "https://reonek.github.io",
+    "email": "959512421@qq.com",
+    "enabledProxy": "proxy",
+    "platform": "github",
+    "proxyPath": "127.0.0.1",
+    "proxyPort": "7890",
+    "repository": "reonek.github.io",
+    "token": "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",
+    "username": "ReOnek"
+  },
+  "comment": {
+    "commentPlatform": "gitalk",
+    "disqusSetting": {
+      "api": "",
+      "apikey": "",
+      "shortname": ""
+    },
+    "gitalkSetting": {
+      "clientId": "",
+      "clientSecret": "",
+      "owner": "",
+      "repository": ""
+    },
+    "showComment": false
+  }
+}
