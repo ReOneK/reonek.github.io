@@ -1,0 +1,279 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>容器基础篇 | OneKing</title>
+
+<link rel="shortcut icon" href="https://reonek.github.io/favicon.ico?v=1695052072170">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://reonek.github.io/styles/main.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"> -->
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/9.12.0/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/9.12.0/languages//dart.min.js"></script>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script> -->
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+    
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@9.1.1/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script> 
+    
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="/">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            OneKing
+        </div>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" id="changeNavbar">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+            <div class="nav-item">
+                
+                <a href="/" class="menu gt-a-link">
+                    首页
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/archives" class="menu gt-a-link">
+                    归档
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="https://reonek.github.io/tags" class="menu gt-a-link">
+                    标签
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="https://reonek.github.io/tag/WoPRZJr7F" class="menu gt-a-link">
+                    杂谈
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="https://reonek.github.io/post/about" class="menu gt-a-link">
+                    关于
+                </a>
+                
+            </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1695052072170"
+                action="/search/">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = () => {
+        var element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else {
+            element.style.display = 'none';
+        }
+    }
+</script>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    容器基础篇
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2023-09-02 ·
+                    </time>
+                    
+                        <a href="https://reonek.github.io/tag/frqvpkmH-/" class="post-tags">
+                            # kubernetes
+                        </a>
+                    
+                        <a href="https://reonek.github.io/tag/9ztgyvufs/" class="post-tags">
+                            # 容器
+                        </a>
+                    
+                        <a href="https://reonek.github.io/tag/G45hiZEUH/" class="post-tags">
+                            # k8s
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <h3 id="1什么是容器">1.什么是容器</h3>
+<blockquote>
+<p>容器其实是一种沙盒技术（sandbox）。顾名思义，沙盒就是能够像一个集装箱一样，把你的应用“装”起来的技术。这样，应用与应用之间，就因为有了<strong>边界</strong>而不至于相互干扰；而被装进集装箱的应用，也可以被方便地搬来搬去，这就是 PaaS 最理想的状态。</p>
+</blockquote>
+<h3 id="2关于边界">2.关于“边界”</h3>
+<blockquote>
+<p>当程序运行起来，它就从磁盘上的二进制文件，变成了计算机<code>内存中的数据</code>、<code>寄存器里的值</code>、<code>堆栈中的指令</code>、<code>被打开的文件</code>，以及<code>各种设备的状态信息</code>的一个集合：<strong>进程</strong>。</p>
+<p>对于进程来说，它的静态表现就是程序，平常都安安静静地待在磁盘上；而一旦运行起来，它就变成了计算机里的数据和<strong>状态的总和</strong>，这就是它的<strong>动态表现</strong>。</p>
+</blockquote>
+<p><strong>容器技术的核心功能，就是通过约束和修改进程的动态表现，从而为其创造出一个“边界”</strong></p>
+<ul>
+<li>Cgroups 技术是用来制造约束的主要手段（<code>资源隔离</code>）</li>
+<li>Namespace 技术则是用来修改进程视图的主要方法（<code>视图隔离</code>）</li>
+</ul>
+<h3 id="3namespace机制">3.Namespace机制</h3>
+<blockquote>
+<p>当我们在宿主机上运行了一个 /bin/sh 程序，操作系统都会给它分配一个进程编号，比如 PID=100。（linux通过clone来创建新的进程，Namespace为一个可选参数）</p>
+<blockquote>
+<p>（int pid = clone(main_function, stack_size, CLONE_NEWPID | SIGCHLD, NULL)）</p>
+</blockquote>
+<p>我们要通过 Docker 把这个 /bin/sh 程序运行在一个容器当中。这时候，Docker 就会在这个第 100 号进程施一个“障眼法”，让他永远看不到前面的其他 99 个进程。</p>
+<p>这种机制，其实就是对被隔离应用的进程空间做了手脚，使得这些进程只能看到重新计算过的进程编号，比如 PID=1。可实际上，他们在宿主机的操作系统里，还是原来的第 100 号进程。</p>
+<p>除了我们刚刚用到的 PID Namespace，Linux 操作系统还提供了 Mount、UTS、IPC、Network 和 User 这些 Namespace，用来对各种不同的进程上下文进行“障眼法”操作。<br>
+<img src="https://reonek.github.io/post-images/1693638529615.jpg" alt="" loading="lazy"></p>
+</blockquote>
+<ul>
+<li>这幅图的左边，画出了虚拟机的工作原理。其中，名为 Hypervisor 的软件是虚拟机最主要的部分。它通过硬件虚拟化功能，模拟出了运行一个操作系统需要的各种硬件，比如 CPU、内存、I/O 设备等等。然后，它在这些虚拟的硬件上安装了一个新的操作系统，即 Guest OS。这样，用户的应用进程就可以运行在这个虚拟的机器中，它能看到的自然也只有 Guest OS 的文件和目录，以及这个机器里的虚拟设备。这就是为什么虚拟机也能起到将不同的应用进程相互隔离的作用。</li>
+<li>而这幅图的右边，则用一个名为 Docker Engine 的软件替换了 Hypervisor。这也是为什么，很多人会把 Docker 项目称为“轻量级”虚拟化技术的原因，实际上就是把虚拟机的概念套在了容器上。</li>
+</ul>
+<h3 id="4docker-vs-虚拟机">4.Docker VS 虚拟机</h3>
+<ul>
+<li>使用虚拟化技术作为应用沙盒，就必须要由 Hypervisor(KVM等) 来负责创建虚拟机，这个虚拟机是真实存在的，并且它里面必须运行一个完整的 Guest OS 才能执行用户的应用进程。这就不可避免地带来了额外的资源消耗和占用。</li>
+<li>容器化后的用户应用，却依然还是一个宿主机上的普通进程，这就意味着这些因为虚拟化而带来的性能损耗都是不存在的；而另一方面，使用 Namespace 作为隔离手段的容器并不需要单独的 Guest OS，这就使得容器额外的资源占用几乎可以忽略不计。</li>
+</ul>
+<p>优势：<code>敏捷，高性能</code></p>
+<p>劣势：<code>隔离不彻底</code></p>
+<ul>
+<li>多个容器之间使用的就还是同一个宿主机的操作系统内核（无法运行其它版本主机windows或者其它版本linux）。</li>
+<li>在 Linux 内核中，有很多资源和对象是不能被 Namespace 化的，最典型的例子就是：时间。</li>
+</ul>
+<h3 id="5linux-cgroupscontrol-group">5.Linux Cgroups(Control Group)</h3>
+<blockquote>
+<p>最主要的作用，就是限制一个进程组能够使用的资源上限，包括 CPU、内存、磁盘、网络带宽等等。</p>
+<p>在 Linux 中，Cgroups 给用户暴露出来的操作接口是文件系统，即它以文件和目录的方式组织在操作系统的 /sys/fs/cgroup 路径下。</p>
+</blockquote>
+<figure data-type="image" tabindex="1"><img src="https://reonek.github.io/post-images/1693638490575.jpg" alt="" loading="lazy"></figure>
+<ul>
+<li>容器是一个“单进程”模型（一个进程）</li>
+<li>用户的应用进程实际上就是容器里 PID=1 的进程，也是其他后续创建的所有进程的父进程</li>
+<li>在一个容器中，你没办法同时运行两个不同的应用，除非你能事先找到一个公共的 PID=1 的程序来充当两个不同应用的父进程，这也是为什么很多人都会用 systemd 或者 supervisord 这样的软件来代替应用本身作为容器的启动进程。</li>
+</ul>
+<p><strong>推荐阅读</strong>：<br>
+1.https://tech.meituan.com/2015/03/31/cgroups.html</p>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://reonek.github.io/post/guan-yu-rong-qi-na-xie-shi/" class="post-title gt-a-link">
+                    容器进阶篇
+                </a>
+            </div>
+        
+
+        
+            <span id="/post/rong-qi-ji-chu-pian/" class="leancloud_visitors" data-flag-title="容器基础篇">
+                <em class="post-meta-item-text">阅读量 </em>
+                <i class="leancloud-visitors-count">0</i>
+            </span>
+        
+
+        
+
+        
+            <script src='https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js'></script>
+
+<style>
+	div#vcomments{
+		width:100%;
+		max-width: 1000px;
+		padding: 2.5%
+	}
+</style>
+
+
+	<div id="vcomments"></div>
+
+<script>
+	new Valine({
+		el: '#vcomments',
+		appId: '',
+		appKey: '',
+		avatar: '',
+		pageSize: 5,
+		recordIp: true,
+		placeholder: 'Just Go Go',
+		visitor: true,
+	});
+</script>
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">温故而知新</div>
+    <div class="social-container">
+        
+            
+                <a href="959512421@qq.com" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme <a href="https://github.com/imhanjie/gridea-theme-pure" target="_blank">Pure</a>, Powered by <a
+                href="https://gridea.dev" target="_blank">Gridea</a> | <a href="https://reonek.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+</div>
+
+<script>
+  hljs.highlightAll()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

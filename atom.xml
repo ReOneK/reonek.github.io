@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://reonek.github.io</id>
+    <title>OneKing</title>
+    <updated>2023-09-18T15:48:44.281Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://reonek.github.io"/>
+    <link rel="self" href="https://reonek.github.io/atom.xml"/>
+    <subtitle>温故而知新</subtitle>
+    <logo>https://reonek.github.io/images/avatar.png</logo>
+    <icon>https://reonek.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2023, OneKing</rights>
+    <entry>
+        <title type="html"><![CDATA[张一鸣：“stay hungry,stay young”]]></title>
+        <id>https://reonek.github.io/post/zhang-yi-ming-stay-hundrystay-young/</id>
+        <link href="https://reonek.github.io/post/zhang-yi-ming-stay-hundrystay-young/">
+        </link>
+        <updated>2023-09-03T14:51:59.000Z</updated>
+        <content type="html"><![CDATA[<pre><code>前段时间在公众号上无意间看到一篇关于张一鸣对于成长过程中建议的“鸡汤”，抱着向大佬学习的心态就点进去看了看。文章其实不长，看下来大概就以下几句话
+</code></pre>
+<h2 id="前人言">前人言</h2>
+<p>乔布斯说：</p>
+<p>​            “stay hungry  stay foolish&quot;</p>
+<p>于是乎，一鸣说：</p>
+<p>​            “stay hungry stay young&quot;</p>
+<p>其实我想说：</p>
+<p>​              “stay peace and love”</p>
+<h2 id="如何做">如何做</h2>
+<p>总结一下一鸣的话：</p>
+<ol>
+<li>做事不设置边界（就是不仅仅是关注于自己做的事情，别的地方有困难也可以帮忙上）</li>
+<li>工作时，不区分什么是自己该做的，什么是不该做的（有点资本家的样子了）</li>
+</ol>
+<h2 id="思考">思考</h2>
+<p>看完之后还是有一些思考的，虽然这些大道理看似很无趣，实则真的很无趣。但是对于不同的选择可能会有不同的见解，总结一下就是：</p>
+<ul>
+<li>小事设边界，大事易碰壁</li>
+<li>思维定性是由一件件小事养成的</li>
+<li>我从不怀疑自己的才华，只不过是怀才不遇罢了</li>
+</ul>
+<p>所以李白最后是不是悟到了这个道理，才会写出“两岸猿声啼不住，轻舟已过万重山”<br>
+不过最帅气的还是“五花马，千金裘，呼儿将出换美酒，与尔同销万古愁”</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[容器基础篇]]></title>
+        <id>https://reonek.github.io/post/rong-qi-ji-chu-pian/</id>
+        <link href="https://reonek.github.io/post/rong-qi-ji-chu-pian/">
+        </link>
+        <updated>2023-09-02T07:07:11.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="1什么是容器">1.什么是容器</h3>
+<blockquote>
+<p>容器其实是一种沙盒技术（sandbox）。顾名思义，沙盒就是能够像一个集装箱一样，把你的应用“装”起来的技术。这样，应用与应用之间，就因为有了<strong>边界</strong>而不至于相互干扰；而被装进集装箱的应用，也可以被方便地搬来搬去，这就是 PaaS 最理想的状态。</p>
+</blockquote>
+<h3 id="2关于边界">2.关于“边界”</h3>
+<blockquote>
+<p>当程序运行起来，它就从磁盘上的二进制文件，变成了计算机<code>内存中的数据</code>、<code>寄存器里的值</code>、<code>堆栈中的指令</code>、<code>被打开的文件</code>，以及<code>各种设备的状态信息</code>的一个集合：<strong>进程</strong>。</p>
+<p>对于进程来说，它的静态表现就是程序，平常都安安静静地待在磁盘上；而一旦运行起来，它就变成了计算机里的数据和<strong>状态的总和</strong>，这就是它的<strong>动态表现</strong>。</p>
+</blockquote>
+<p><strong>容器技术的核心功能，就是通过约束和修改进程的动态表现，从而为其创造出一个“边界”</strong></p>
+<ul>
+<li>Cgroups 技术是用来制造约束的主要手段（<code>资源隔离</code>）</li>
+<li>Namespace 技术则是用来修改进程视图的主要方法（<code>视图隔离</code>）</li>
+</ul>
+<h3 id="3namespace机制">3.Namespace机制</h3>
+<blockquote>
+<p>当我们在宿主机上运行了一个 /bin/sh 程序，操作系统都会给它分配一个进程编号，比如 PID=100。（linux通过clone来创建新的进程，Namespace为一个可选参数）</p>
+<blockquote>
+<p>（int pid = clone(main_function, stack_size, CLONE_NEWPID | SIGCHLD, NULL)）</p>
+</blockquote>
+<p>我们要通过 Docker 把这个 /bin/sh 程序运行在一个容器当中。这时候，Docker 就会在这个第 100 号进程施一个“障眼法”，让他永远看不到前面的其他 99 个进程。</p>
+<p>这种机制，其实就是对被隔离应用的进程空间做了手脚，使得这些进程只能看到重新计算过的进程编号，比如 PID=1。可实际上，他们在宿主机的操作系统里，还是原来的第 100 号进程。</p>
+<p>除了我们刚刚用到的 PID Namespace，Linux 操作系统还提供了 Mount、UTS、IPC、Network 和 User 这些 Namespace，用来对各种不同的进程上下文进行“障眼法”操作。<br>
+<img src="https://reonek.github.io/post-images/1693638529615.jpg" alt="" loading="lazy"></p>
+</blockquote>
+<ul>
+<li>这幅图的左边，画出了虚拟机的工作原理。其中，名为 Hypervisor 的软件是虚拟机最主要的部分。它通过硬件虚拟化功能，模拟出了运行一个操作系统需要的各种硬件，比如 CPU、内存、I/O 设备等等。然后，它在这些虚拟的硬件上安装了一个新的操作系统，即 Guest OS。这样，用户的应用进程就可以运行在这个虚拟的机器中，它能看到的自然也只有 Guest OS 的文件和目录，以及这个机器里的虚拟设备。这就是为什么虚拟机也能起到将不同的应用进程相互隔离的作用。</li>
+<li>而这幅图的右边，则用一个名为 Docker Engine 的软件替换了 Hypervisor。这也是为什么，很多人会把 Docker 项目称为“轻量级”虚拟化技术的原因，实际上就是把虚拟机的概念套在了容器上。</li>
+</ul>
+<h3 id="4docker-vs-虚拟机">4.Docker VS 虚拟机</h3>
+<ul>
+<li>使用虚拟化技术作为应用沙盒，就必须要由 Hypervisor(KVM等) 来负责创建虚拟机，这个虚拟机是真实存在的，并且它里面必须运行一个完整的 Guest OS 才能执行用户的应用进程。这就不可避免地带来了额外的资源消耗和占用。</li>
+<li>容器化后的用户应用，却依然还是一个宿主机上的普通进程，这就意味着这些因为虚拟化而带来的性能损耗都是不存在的；而另一方面，使用 Namespace 作为隔离手段的容器并不需要单独的 Guest OS，这就使得容器额外的资源占用几乎可以忽略不计。</li>
+</ul>
+<p>优势：<code>敏捷，高性能</code></p>
+<p>劣势：<code>隔离不彻底</code></p>
+<ul>
+<li>多个容器之间使用的就还是同一个宿主机的操作系统内核（无法运行其它版本主机windows或者其它版本linux）。</li>
+<li>在 Linux 内核中，有很多资源和对象是不能被 Namespace 化的，最典型的例子就是：时间。</li>
+</ul>
+<h3 id="5linux-cgroupscontrol-group">5.Linux Cgroups(Control Group)</h3>
+<blockquote>
+<p>最主要的作用，就是限制一个进程组能够使用的资源上限，包括 CPU、内存、磁盘、网络带宽等等。</p>
+<p>在 Linux 中，Cgroups 给用户暴露出来的操作接口是文件系统，即它以文件和目录的方式组织在操作系统的 /sys/fs/cgroup 路径下。</p>
+</blockquote>
+<figure data-type="image" tabindex="1"><img src="https://reonek.github.io/post-images/1693638490575.jpg" alt="" loading="lazy"></figure>
+<ul>
+<li>容器是一个“单进程”模型（一个进程）</li>
+<li>用户的应用进程实际上就是容器里 PID=1 的进程，也是其他后续创建的所有进程的父进程</li>
+<li>在一个容器中，你没办法同时运行两个不同的应用，除非你能事先找到一个公共的 PID=1 的程序来充当两个不同应用的父进程，这也是为什么很多人都会用 systemd 或者 supervisord 这样的软件来代替应用本身作为容器的启动进程。</li>
+</ul>
+<p><strong>推荐阅读</strong>：<br>
+1.https://tech.meituan.com/2015/03/31/cgroups.html</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[容器进阶篇]]></title>
+        <id>https://reonek.github.io/post/guan-yu-rong-qi-na-xie-shi/</id>
+        <link href="https://reonek.github.io/post/guan-yu-rong-qi-na-xie-shi/">
+        </link>
+        <updated>2023-09-02T06:59:16.000Z</updated>
+        <content type="html"><![CDATA[<blockquote>
+<p>Namespace 的作用是“隔离”，它让应用进程只能看到该 Namespace 内的“世界”；而 Cgroups 的作用是“限制”，它给这个“世界”围上了一圈看不见的墙。这么一折腾，进程就真的被“装”在了一个与世隔绝的房间里，而这些房间就是 PaaS 项目赖以生存的应用“沙盒”。</p>
+<p>但是如果容器进程低头一看地面，又是怎样一副景象呢？</p>
+</blockquote>
+<h3 id="1容器里的进程看到的文件系统又是什么样子的呢">1.容器里的进程看到的文件系统又是什么样子的呢？</h3>
+<ul>
+<li>
+<p>使用mount namespace机制修改容器进程对文件系统“挂载点”的认知（同 pid namespace）</p>
+</li>
+<li>
+<p>Mount Namespace 跟其他 Namespace 的使用略有不同的地方：它对容器进程视图的改变，一定是伴随着挂载操作（mount）才能生效。</p>
+<blockquote>
+<p>在 Linux 操作系统里，有一个名为 chroot 的命令可以帮助你在 shell 中方便地完成这个工作。顾名思义，它的作用就是帮你“change root file system”，即改变进程的根目录到你指定的位置。</p>
+</blockquote>
+<blockquote>
+<p>Mount Namespace 正是基于对 chroot 的不断改良才被发明出来的，它也是 Linux 操作系统里的第一个 Namespace。</p>
+</blockquote>
+<p><code>而这个挂载在容器根目录上、用来为容器进程提供隔离后执行环境的文件系统，就是所谓的“容器镜像”。它还有一个更为专业的名字，叫作：rootfs（根文件系统）</code></p>
+</li>
+</ul>
+<h3 id="2对于docker项目来说最核心的原理实际就是为待创建的用户进程">2.对于Docker项目来说，最核心的原理实际就是为待创建的用户进程：</h3>
+<ul>
+<li>
+<p>启用 Linux Namespace 配置；</p>
+</li>
+<li>
+<p>设置指定的 Cgroups 参数；</p>
+</li>
+<li>
+<p>切换进程的根目录（Change Root）。</p>
+<blockquote>
+<p>这样，一个完整的容器就诞生了。不过，Docker 项目在最后一步的切换上会优先使用 pivot_root 系统调用，如果系统不支持，才会使用 chroot。这两个系统调用虽然功能类似，但是也有细微的区别。<br>
+chroot是只改变即将运行的 某进程的根目录。pviot_root主要是把整个系统切换到一个新的root目录，然后去掉对之前rootfs的依赖，以便于可以umount 之前的文件系统（pivot_root需要root权限）</p>
+<p>需要明确的是，rootfs 只是一个操作系统所包含的文件、配置和目录，<strong>并不包括操作系统内核</strong>。在 Linux 操作系统中，这两部分是分开存放的，操作系统只有在开机启动时才会加载指定版本的内核镜像。</p>
+</blockquote>
+<p><code>同一台机器上的所有容器，都共享宿主机操作系统的内核。</code></p>
+</li>
+</ul>
+<h3 id="3一致性">3.一致性</h3>
+<blockquote>
+<p>事实上，对于大多数开发者而言，他们对应用依赖的理解，一直局限在编程语言层面。比如 Golang 的 Godeps.json。但实际上，一个一直以来很容易被忽视的事实是，对一个应用来说，操作系统本身才是它运行所需要的最完整的“依赖库”。</p>
+<p>rootfs 里打包的不只是应用，而是整个操作系统的文件和目录，也就意味着，应用以及它运行所需要的所有依赖，都被封装在了一起。</p>
+<p>这种深入到操作系统级别的运行环境一致性，打通了应用在本地开发和远端执行环境之间难以逾越的鸿沟。</p>
+</blockquote>
+<h3 id="4-联合文件系统union-file-system">4. 联合文件系统（Union File System）</h3>
+<p>Union File System 也叫 UnionFS，最主要的功能是将多个不同位置的目录联合挂载（union mount）到同一个目录下。</p>
+<blockquote>
+<p>Docker 在镜像的设计中，引入了层（layer）的概念。也就是说，用户制作镜像的每一步操作，都会生成一个层，也就是一个增量 rootfs。</p>
+</blockquote>
+<p>示例：</p>
+<p>启动容器</p>
+<pre><code>$ docker run -d ubuntu:latest sleep 3600
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动" loading="lazy"></figure>
+<blockquote>
+<p>这时候，Docker 就会从 Docker Hub 上拉取一个 Ubuntu 镜像到本地。这个所谓的“镜像”，实际上就是一个 Ubuntu 操作系统的 rootfs，它的内容是 Ubuntu 操作系统的所有文件和目录。不过，与之前我们讲述的 rootfs 稍微不同的是，Docker 镜像使用的 rootfs，往往由多个“层”组成：</p>
+</blockquote>
+<pre><code>$ docker image inspect ubuntu:latest
+...
+     &quot;RootFS&quot;: {
+      &quot;Type&quot;: &quot;layers&quot;,
+      &quot;Layers&quot;: [
+        &quot;sha256:f49017d4d5ce9c0f544c...&quot;,
+        &quot;sha256:8f2b771487e9d6354080...&quot;,
+        &quot;sha256:ccd4d61916aaa2159429...&quot;,
+        &quot;sha256:c01d74f99de40e097c73...&quot;,
+        &quot;sha256:268a067217b5fe78e000...&quot;
+      ]
+    }
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动" loading="lazy"></figure>
+<blockquote>
+<p>可以看到，这个 Ubuntu 镜像，实际上由五个层组成。这五个层就是五个增量 rootfs，每一层都是 Ubuntu 操作系统文件与目录的一部分；而在使用镜像时，Docker 会把这些增量联合挂载在一个统一的挂载点上。</p>
+<p>镜像的层都放置在 /var/lib/docker/aufs/diff 目录下，然后被联合挂载在 /var/lib/docker/aufs/mnt 里面。<br>
+<img src="https://reonek.github.io/post-images/1693638134822.jpg" alt="" loading="lazy"></p>
+</blockquote>
+<blockquote>
+<p>第一部分，只读层。<br>
+它是这个容器的 rootfs 最下面的五层，对应的正是 ubuntu:latest 镜像的五层。可以看到，它们的挂载方式都是只读的（ro+wh，即 readonly+whiteout，至于什么是 whiteout，我下面马上会讲到）。这时，我们可以分别查看一下这些层的内容（都以增量的方式分别包含了 Ubuntu 操作系统的一部分）：</p>
+</blockquote>
+<pre><code>$ ls /var/lib/docker/aufs/diff/72b0744e06247c7d0...
+etc sbin usr var
+$ ls /var/lib/docker/aufs/diff/32e8e20064858c0f2...
+run
+$ ls /var/lib/docker/aufs/diff/a524a729adadedb900...
+bin boot dev etc home lib lib64 media mnt opt proc root run sbin srv sys tmp usr var
+</code></pre>
+<figure data-type="image" tabindex="3"><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动" loading="lazy"></figure>
+<blockquote>
+<p>第二部分，可读写层。</p>
+<p>它是这个容器的 rootfs 最上面的一层（6e3be5d2ecccae7cc），它的挂载方式为：rw，即 read write。在没有写入文件之前，这个目录是空的。而一旦在容器里做了写操作，你修改产生的内容就会以增量的方式出现在这个层中。可是，你有没有想到这样一个问题：如果我现在要做的，是删除只读层里的一个文件呢？为了实现这样的删除操作，AuFS 会在可读写层创建一个 whiteout 文件，把只读层里的文件“遮挡”起来。比如，你要删除只读层里一个名叫 foo 的文件，那么这个删除操作实际上是在可读写层创建了一个名叫.wh.foo 的文件。这样，当这两个层被联合挂载之后，foo 文件就会被.wh.foo 文件“遮挡”起来，“消失”了。这个功能，就是“ro+wh”的挂载方式，即只读 +whiteout 的含义。我喜欢把 whiteout 形象地翻译为：“白障”。所以，最上面这个可读写层的作用，就是专门用来存放你修改 rootfs 后产生的增量，无论是增、删、改，都发生在这里。而当我们使用完了这个被修改过的容器之后，还可以使用 docker commit 和 push 指令，保存这个被修改过的可读写层，并上传到 Docker Hub 上，供其他人使用；而与此同时，原先的只读层里的内容则不会有任何变化。这，就是增量 rootfs 的好处。</p>
+</blockquote>
+<blockquote>
+<p>第三部分，Init 层。</p>
+<p>它是一个以“-init”结尾的层，夹在只读层和读写层之间。Init 层是 Docker 项目单独生成的一个内部层，专门用来存放 /etc/hosts、/etc/resolv.conf 等信息。需要这样一层的原因是，这些文件本来属于只读的 Ubuntu 镜像的一部分，但是用户往往需要在启动容器时写入一些指定的值比如 hostname，所以就需要在可读写层对它们进行修改。可是，这些修改往往只对当前的容器有效，我们并不希望执行 docker commit 时，把这些信息连同可读写层一起提交掉。所以，Docker 做法是，在修改了这些文件之后，以一个单独的层挂载了出来。而用户执行 docker commit 只会提交可读写层，所以是不包含这些内容的。最终，这 7 个层都被联合挂载到 /var/lib/docker/aufs/mnt 目录下，表现为一个完整的 Ubuntu 操作系统供容器使用。</p>
+</blockquote>
+<ul>
+<li>Qus:</li>
+</ul>
+<p><em>既然容器的 rootfs（比如，Ubuntu 镜像），是以只读方式挂载的，那么又如何在容器里修改 Ubuntu 镜像的内容呢？（提示：Copy-on-Write）</em></p>
+<ul>
+<li>Ans:</li>
+</ul>
+<pre><code>上面的读写层通常也称为容器层，下面的只读层称为镜像层，所有的增删查改操作都只会作用在容器层，相同的文件上层会覆盖掉下层。知道这一点，就不难理解镜像文件的修改，比如修改一个文件的时候，首先会从上到下查找有没有这个文件，找到，就复制到容器层中，修改，修改的结果就会作用到下层的文件，这种方式也被称为copy-on-write。
+包括但不限于以下这几种：aufs, device mapper, btrfs, overlayfs, vfs, zfs。aufs是ubuntu 常用的，device mapper 是 centos，btrfs 是 SUSE，overlayfs ubuntu 和 centos 都会使用，现在最新的 docker 版本中默认两个系统都是使用的 overlayfs，vfs 和 zfs 常用在 solaris 系统。
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[初识k8s]]></title>
+        <id>https://reonek.github.io/post/chu-shi-bie-k8s/</id>
+        <link href="https://reonek.github.io/post/chu-shi-bie-k8s/">
+        </link>
+        <updated>2023-09-02T06:39:59.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="1一个运行的linux容器组成">1.一个运行的linux容器组成</h3>
+<ul>
+<li>一组联合挂载在 /var/lib/docker/aufs/mnt 上的 rootfs，这一部分我们称为“容器镜像”（Container Image），是容器的静态视图；</li>
+<li>一个由 Namespace+Cgroups 构成的隔离环境，这一部分我们称为“容器运行时”（Container Runtime），是容器的动态视图。</li>
+</ul>
+<h3 id="2容器编排迅速成为上层建筑的原因">2.&quot;容器编排&quot;迅速成为上层建筑的原因</h3>
+<ul>
+<li>
+<p>开发者不需要关心容器运行时的差异。</p>
+</li>
+<li>
+<p>真正承载着容器信息进行传递的，是<strong>容器镜像</strong>，而不是容器运行时。</p>
+</li>
+<li>
+<p>通过容器镜像，它们可以和潜在用户（即，开发者）直接关联起来。（CI/CD、监控、安全、网络、存储等等）</p>
+<blockquote>
+<p>这样，容器就从一个开发者手里的小工具，一跃成为了云计算领域的绝对主角；而能够定义容器组织和管理规范的“容器编排”技术，则当仁不让地坐上了容器技术领域的“头把交椅”。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="3k8s项目主要解决的问题">3.k8s项目主要解决的问题</h3>
+<figure data-type="image" tabindex="1"><img src="https://reonek.github.io/post-images/1693636933376.jpg" alt="" loading="lazy"></figure>
+<blockquote>
+<p>Kubernetes 项目的架构，跟它的原型项目 Borg 非常类似，都由 Master 和 Node 两种节点组成，而这两种角色分别对应着控制节点和计算节点。其中，控制节点，即 Master 节点，由三个紧密协作的独立组件组合而成，它们分别是负责 API 服务的 kube-apiserver、负责调度的 kube-scheduler，以及负责容器编排的 kube-controller-manager。整个集群的持久化数据，则由 kube-apiserver 处理后保存在 Etcd 中。而计算节点上最核心的部分，则是一个叫作 kubelet 的组件。</p>
+</blockquote>
+<ul>
+<li><strong>在 Kubernetes 项目中，kubelet 主要负责同容器运行时（比如 Docker 项目）打交道。</strong></li>
+</ul>
+<blockquote>
+<p>而这个交互所依赖的，是一个称作 CRI（Container Runtime Interface）的远程调用接口，这个接口定义了容器运行时的各项核心操作，比如：启动一个容器需要的所有参数。这也是为何，Kubernetes 项目并不关心你部署的是什么容器运行时、使用的什么技术实现，只要你的这个容器运行时能够运行标准的容器镜像，它就可以通过实现 CRI 接入到 Kubernetes 项目当中。而具体的容器运行时，比如 Docker 项目，则一般通过 <strong>OCI 这个容器运行时规范同底层的 Linux 操作系统进行交互</strong>，即：<strong>把 CRI 请求翻译成对 Linux 操作系统的调用（操作 Linux Namespace 和 Cgroups 等）。</strong></p>
+</blockquote>
+<ul>
+<li><strong>kubelet 还通过 gRPC 协议同一个叫作 Device Plugin 的插件进行交互</strong>。</li>
+</ul>
+<blockquote>
+<p>这个插件，是 Kubernetes 项目用来管理 GPU 等宿主机物理设备的主要组件，也是基于 Kubernetes 项目进行机器学习训练、高性能作业支持等工作必须关注的功能。</p>
+</blockquote>
+<ul>
+<li>
+<p><strong>kubelet 的另一个重要功能，则是调用网络插件和存储插件为容器配置网络和持久化存储。</strong></p>
+<blockquote>
+<p>这两个插件与 kubelet 进行交互的接口，分别是 CNI（Container Networking Interface）和 CSI（Container Storage Interface）。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>k8s着重解决的问题</strong></p>
+<ul>
+<li>运行在大规模集群中的各种任务之间，<strong>应用与应用之间的关系</strong>。这些关系的处理，才是作业编排和管理系统最困难的地方。</li>
+<li><strong>应用运行的形态</strong>是影响“如何容器化这个应用”的第二个重要因素。</li>
+</ul>
+</li>
+<li>
+<p>k8s的设计思想</p>
+<ul>
+<li>从更宏观的角度，以统一的方式来定义任务之间的各种关系</li>
+<li>且为将来支持更多种类的关系留有余地</li>
+</ul>
+</li>
+<li>
+<p>在 Kubernetes 项目中，所推崇的使用方法</p>
+<ul>
+<li>通过一个“<code>编排对象</code>”，比如 Pod、Job、CronJob 等，来描述你试图管理的应用；</li>
+<li>再为它定义一些“<code>服务对象</code>”，比如 Service、Secret、Horizontal Pod Autoscaler（自动水平扩展器）等。这些对象，会负责具体的平台级功能。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>这种使用方法，就是所谓的“声明式 API”。这种 API 对应的“编排对象”和“服务对象”，都是 Kubernetes 项目中的 API 对象（API Object）。</p>
+</blockquote>
+<p><strong>推荐阅读</strong>：<br>
+1.<a href="https://feisky.gitbooks.io/kubernetes/content/architecture/architecture.html">架构原理 · Kubernetes指南)https://feisky.gitbooks.io/kubernetes/content/architecture/architecture.html</a></p>
+<p>​					2.<a href="https://time.geekbang.org/column/intro/100015201">深入剖析 Kubernetes (geekbang.org)</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[关于CRDT相关的一些理论知识]]></title>
+        <id>https://reonek.github.io/post/guan-yu-crdt-xiang-guan-de-yi-xie-li-lun-zhi-shi/</id>
+        <link href="https://reonek.github.io/post/guan-yu-crdt-xiang-guan-de-yi-xie-li-lun-zhi-shi/">
+        </link>
+        <updated>2023-09-02T06:06:53.000Z</updated>
+        <content type="html"><![CDATA[<h4 id="全称">全称：</h4>
+<ul>
+<li><em>Conflict-free Replicated Data Typ</em>e（无冲突的复制数据类型）</li>
+</ul>
+<h4 id="由来">由来：</h4>
+<ul>
+<li>在分布式系统中，不同节点之间的数据复制存在一致性问题（<strong>强一致性问题</strong>），CRDT作为<strong>一种理论</strong>来指导如何将原有数据结构设计成在数据复制过程中通向最终一致性的一种<strong>新的数据结构</strong>。</li>
+</ul>
+<h4 id="最终结果">最终结果：</h4>
+<ul>
+<li>确保操作的独立性并且操作彼此不会冲突从而避免协调。</li>
+</ul>
+<h4 id="相关理论">相关理论：</h4>
+<ul>
+<li>
+<p>CAP：Consistency, Availability, Partition</p>
+<ul>
+<li>混合了分布式特性(如一致性和可用性)与系统模型(网络可靠性指标)。</li>
+</ul>
+</li>
+<li>
+<p>CAC:   Consistency, Availability,Convergence</p>
+<ul>
+<li>收敛性：是指一种实现能力，它能确保被一个节点写入的数据被另外一个读取，收敛性描述的是一个节点能够读取到其他节点的写入时的一系列环境条件(如网络，本地时钟等)</li>
+<li><strong>一个简单的收敛性其实是一种最终一致性，如果一个系统停止了接受写入和节点之间足够的通讯发生，那么这个系统就会达到一种状态，这种状态是，对于任何对象o，o的读取会在所有节点上返回同样的值。</strong></li>
+<li>收敛性是指所有节点都同意是一种可取的有用的状态。</li>
+<li>通过引入收敛性，我们可以在安全（一致性）和灵活性（可用与收敛）之间取得平衡。</li>
+</ul>
+</li>
+<li>
+<p>因果一致性</p>
+<ul>
+<li>
+<p>遵循‘happens-before’ ，即写在读之前发生，实时因果一致性(RTC)是增加了时间不可逆的约束</p>
+<ol>
+<li>在同一执行线程：如果a 和 b 是一个执行线程中的两个操作，如果操作a发生在操作b之前，那么a -&gt;b；</li>
+<li>不同线程Gets From. 如果 a是一个put放入操作，且b是一个get操作，能返回被a放入的写操作结果值，那么a-&gt;b；</li>
+<li>传递性Transitivity. 对于操作a, b, 和 c, if a -&gt; b 且 b -&gt; c, 那么 a -&gt; c.</li>
+</ol>
+</li>
+<li>
+<p>因果一致性并不对<strong>并发操作</strong>排序，如果 a不在b之前发生，b也不在a之前发生，那么a 和b是并发的，a和b是两个不相关的操作，那么它们在分布式系统中复制就不必遵循任何顺序了，这样就避免了在它们之间使用因果这种串行化方式。</p>
+</li>
+<li>
+<p>对于使用相同的key值进行put写操作，使用last-writer-win策略，即在初始存储时使用一个时间戳为每次更新分配唯一的版本号，以此来为每个key的所有写操作维护全局的顺序。</p>
+</li>
+</ul>
+<p><strong>这些规则在同一个线程内的操作之间以及在与数据存储交互的不同线程的操作之间创建了潜在的因果关系，这个模型，并不允许线程直接通讯，而是通过数据存储进行通讯。</strong></p>
+</li>
+</ul>
+]]></content>
+    </entry>
+</feed>
